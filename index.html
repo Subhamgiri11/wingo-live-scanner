@@ -1,104 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#070A0F">
-<title>Wingo Live Scanner — Demo</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#02090d">
+<title>WINGO LIVE SCANNER</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#070A0F;color:#fff;font-family:Arial,Helvetica,sans-serif;min-height:100vh}
-.wrap{max-width:480px;margin:auto;padding:18px}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.logo{font-weight:800;letter-spacing:1px;color:#00FF88}.demo{font-size:11px;border:1px solid #00FF88;color:#00FF88;padding:5px 8px;border-radius:20px}
-.card{background:#0d121a;border:1px solid #202b38;border-radius:18px;padding:20px;margin-bottom:14px;box-shadow:0 10px 30px #0005}
-.title{font-size:24px;font-weight:800;margin:0 0 6px}.muted{color:#8995a5;font-size:13px}
-.timer{font-size:54px;font-weight:800;text-align:center;color:#00FF88;margin:10px 0}
-.scan{height:8px;background:#16202b;border-radius:10px;overflow:hidden}.bar{height:100%;width:100%;background:#00FF88;transition:width 1s linear}
-.result{text-align:center;font-size:42px;font-weight:900;margin:18px 0 6px}.result.big{color:#00FF88}.result.small{color:#5bb7ff}
-.badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.badge{padding:7px 12px;border-radius:20px;background:#151e29;font-size:12px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#111923;padding:14px;border-radius:12px}.num{font-size:22px;font-weight:800;margin-top:4px}
-.history{display:flex;flex-direction:column;gap:8px}.row{display:flex;justify-content:space-between;align-items:center;background:#111923;padding:11px 12px;border-radius:10px;font-size:13px}
-.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px}.red{background:#ff405c}.green{background:#00d982}.violet{background:#a56bff}
-button{width:100%;border:0;border-radius:12px;padding:13px;background:#00FF88;color:#00130a;font-weight:800;font-size:15px;cursor:pointer}
-.note{font-size:11px;line-height:1.5;color:#748091;text-align:center;margin-top:12px}
+:root{--bg:#02080c;--card:#06151b;--line:#08717a;--cyan:#20e5d0;--green:#22ef91;--purple:#a96cff;--red:#ff4660;--text:#effffc;--muted:#7e9c98}
+*{box-sizing:border-box}html,body{margin:0;background:#000;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}body{min-height:100vh}.app{width:min(100%,520px);margin:auto;min-height:100vh;background:radial-gradient(circle at 50% 8%,#08313a 0,#06151b 27%,#02080c 72%);padding-bottom:78px}header{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #0a3840;background:#020a0df0;position:sticky;top:0;z-index:5}.brand{font-size:17px;font-weight:900;letter-spacing:.4px}.brand span{color:var(--green)}.live{background:var(--green);color:#002219;padding:7px 12px;border-radius:9px;font-size:10px;font-weight:900;box-shadow:0 0 18px #22ef9160}main{padding:12px}.card{background:linear-gradient(145deg,#071a20,#041015);border:1px solid #08717a;border-radius:17px;padding:14px;margin-bottom:11px;box-shadow:0 10px 30px #0009}.grid2{display:grid;grid-template-columns:1.25fr .75fr;gap:8px}.box{border:1px solid #0a5961;border-radius:13px;padding:12px}.label,.eyebrow{font-size:10px;color:var(--muted);letter-spacing:1px}.period{font-size:14px;font-weight:800;margin-top:5px}.timer{text-align:right;font-size:27px;font-weight:950;color:var(--green)}.timer.warn{color:var(--red)}.scanTitle{text-align:center;color:#9cece1;letter-spacing:1.2px;font-size:11px;margin:15px 0 3px}.scanner{height:180px;display:grid;place-items:center;position:relative}.ring{position:absolute;border-radius:50%;border:1px solid #20e5d055}.r1{width:166px;height:166px;box-shadow:0 0 35px #20e5d020}.r2{width:136px;height:136px;border-color:#22ef9188}.r3{width:103px;height:103px;border-color:#a96cff99}.core{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--green);color:#bffff1;font-size:11px;font-weight:900;background:#062321;box-shadow:0 0 30px #22ef9155;z-index:2}.sweep{position:absolute;width:150px;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);animation:spin 2.4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.steps{border-top:1px solid #0a3e44;padding-top:8px}.step{font-size:12px;margin:9px 0;color:#b8d0cc}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);margin-right:9px}.next-number-card{position:relative}.next-number-wrap{display:flex;align-items:center;gap:16px;margin-top:9px}.next-number{width:92px;height:92px;border-radius:50%;display:grid;place-items:center;font-size:48px;font-weight:950;border:3px solid var(--purple);box-shadow:0 0 28px #a96cff70;background:#100b1c}.next-number.green{border-color:var(--green);box-shadow:0 0 28px #22ef9170;background:#05251b}.next-number.red{border-color:var(--red);box-shadow:0 0 28px #ff466070;background:#2b0b12}.next-number.violet{border-color:var(--purple);box-shadow:0 0 28px #a96cff70;background:#170a25}.next-meta{flex:1}.next-meta div{margin:5px 0;font-weight:850}.next-meta #nextPercent{font-size:20px;color:var(--green)}.analysis-line{margin-top:10px;padding:10px;border:1px solid #0a5961;border-radius:10px;color:#a9ccc6;font-size:10px;line-height:1.45}.outcome-box{margin-top:10px;border-top:1px solid #0a3e44;padding-top:10px}.outcome-main{font-size:22px;font-weight:950;margin-top:5px}.size{display:inline-block;padding:7px 24px;border:1px solid #d49c29;border-radius:9px;color:#ffc83c;background:#2b1d05;font-weight:900}.colour{margin-top:12px;display:flex;align-items:center;gap:10px;font-weight:900}.colourDot{width:17px;height:17px;border-radius:50%;box-shadow:0 0 15px currentColor}.numberBoard{padding:12px;border-color:#4b2472}.numberBoard:before{content:"ॐ  जय माँ काली  ॐ";display:block;text-align:center;color:#e8c6ff;font-size:11px;font-weight:900;letter-spacing:2px;margin:0 0 10px}.numberGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.gameNum{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:23px;font-weight:950;background:#07161b;border:2px solid}.redN{color:#ff4660;border-color:#ff4660}.greenN{color:#22ef91;border-color:#22ef91}.violetN{color:#b174ff;border-color:#a96cff}.rvN,.gvN{color:#fff;border-color:#a96cff}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.stat{border:1px solid #0a5961;border-radius:11px;padding:11px 4px;text-align:center}.stat b{display:block;font-size:19px;margin-top:4px}.history{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.resultCard{border:1px solid #0a5961;border-radius:13px;padding:8px 4px;text-align:center}.resultBall{width:42px;height:42px;margin:auto;border-radius:50%;display:grid;place-items:center;font-weight:950;font-size:18px;border:2px solid}.resultType{font-size:8px;margin-top:5px;color:#9bb7b2;font-weight:800}.resultColor{font-size:8px;margin-top:3px;font-weight:900}.g{color:#22ef91;border-color:#22ef91;background:#05271d}.r{color:#ff4660;border-color:#ff4660;background:#330b13}.v{color:#b174ff;border-color:#a96cff;background:#200d35}.rv{color:#fff;border-color:#a96cff;background:linear-gradient(135deg,#ff4660 0 50%,#8f49e8 50%)}.gv{color:#fff;border-color:#a96cff;background:linear-gradient(135deg,#22ef91 0 50%,#8f49e8 50%)}.section{font-weight:900;font-size:14px;margin:15px 2px 8px}.notice{font-size:10px;color:#82aaa4;line-height:1.5;border:1px solid #0a5961;border-radius:12px;padding:11px}.tabs{display:flex;gap:6px;overflow:auto}.tab{border:1px solid #0a5961;background:#061319;color:#91aaa6;border-radius:9px;padding:8px 13px;font-size:10px}.tab.active{background:#20e5d0;color:#02221f}.chart{height:140px;display:flex;align-items:flex-end;gap:5px;padding:15px 7px 0;border:1px solid #0a444c;border-radius:12px}.bar{flex:1;background:linear-gradient(#20e5d0,#126b6a);border-radius:5px 5px 0 0;position:relative}.bar span{position:absolute;top:-15px;width:100%;text-align:center;font-size:8px;color:#91b4af}.row{display:flex;justify-content:space-between;gap:10px}.muted{color:var(--muted)}input{width:100%;padding:11px;border-radius:10px;border:1px solid #0a5961;background:#031014;color:white;margin-top:9px}button.apiBtn{width:100%;margin-top:8px;padding:11px;border:0;border-radius:10px;background:var(--cyan);color:#02221f;font-weight:900}.developer{text-align:center;padding:18px 10px 8px;color:#6f9792;font-size:10px;letter-spacing:1.2px;text-transform:uppercase}.developer strong{color:#20e5d0;font-size:12px}nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,520px);height:66px;display:grid;grid-template-columns:repeat(4,1fr);background:#02090df5;border-top:1px solid #0a3840;z-index:20}nav button{border:0;background:none;color:#789590;font-size:10px;font-weight:800}nav button b{display:block;font-size:19px;margin-bottom:3px}nav button.active{color:var(--cyan)}.status{font-size:10px;margin-top:8px;font-weight:900}.ok{color:var(--green)}.bad{color:var(--red)}
 </style>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00e5ff">
 </head>
 <body>
-<div class="wrap">
-  <div class="header">
-    <div class="logo">WINGO LIVE SCANNER</div>
-    <div class="demo">DEMO MODE</div>
-  </div>
-
-  <div class="card">
-    <div class="title">Live Scan</div>
-    <div class="muted">Simulated round scanner — not a real prediction service</div>
-    <div class="timer" id="timer">60</div>
-    <div class="scan"><div class="bar" id="bar"></div></div>
-    <div class="result" id="result">BIG</div>
-    <div class="badges">
-      <span class="badge" id="number">Number: 8</span>
-      <span class="badge" id="colour">Colour: Green</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="title">Frequency Statistics</div>
-    <div class="grid">
-      <div class="stat"><div class="muted">Big</div><div class="num" id="bigCount">0</div></div>
-      <div class="stat"><div class="muted">Small</div><div class="num" id="smallCount">0</div></div>
-      <div class="stat"><div class="muted">Green</div><div class="num" id="greenCount">0</div></div>
-      <div class="stat"><div class="muted">Red</div><div class="num" id="redCount">0</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="title">Recent History</div>
-    <div class="history" id="history"></div>
-  </div>
-
-  <button id="scanBtn">RUN DEMO SCAN</button>
-  <div class="note">Demo only. Results are randomly simulated in your browser and do not predict real Wingo/game outcomes.</div>
+<div class="app">
+<header><div class="brand">WINGO <span>LIVE SCANNER</span></div><div class="live">● LIVE</div></header>
+<main>
+<section id="home" class="screen">
+<div class="card grid2"><div class="box"><div class="label">CURRENT PERIOD</div><div id="period" class="period">Connecting…</div></div><div class="box"><div class="label">NEXT ROUND</div><div id="countdown" class="timer">01:00</div></div></div>
+<div class="scanTitle">AUTOMATIC LIVE ANALYSIS</div><div class="scanner"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="sweep"></div><div class="core">SCANNING</div></div>
+<div class="card steps"><div class="step"><span class="dot"></span>Syncing IST 60-second period</div><div class="step"><span class="dot"></span>Reading settled source data</div><div class="step"><span class="dot"></span>Calculating trend reference</div><div class="step"><span class="dot"></span>Refreshing next-period source signal</div><div id="sourceStatus" class="status bad">● CONNECTING…</div></div>
+<section id="nextNumberReference" class="card next-number-card"><div class="eyebrow">NEXT NUMBER REFERENCE</div><div class="next-number-wrap"><div id="nextNumber" class="next-number">—</div><div class="next-meta"><div id="nextSide">Waiting…</div><div id="nextColor">SOURCE: —</div><div id="nextPercent">—%</div></div></div><div id="predictionAnalysis" class="analysis-line">Connecting to live source…</div><div class="outcome-box"><div class="eyebrow">LATEST SETTLED OUTCOME</div><div id="outcomeValue" class="outcome-main">WAITING</div><div id="outcomeMeta" class="muted" style="font-size:10px;margin-top:3px">—</div></div></section>
+<div class="card"><div class="section">NUMBER BOARD</div><div class="numberGrid" id="numberGrid"></div></div>
+<div class="card"><div class="section">RECENT RESULTS</div><div id="history" class="history"></div></div>
+</section>
+<section id="stats" class="screen" hidden><div class="section">LIVE STATS</div><div class="card"><div class="stats"><div class="stat">ROUNDS<b id="sRounds">0</b></div><div class="stat">BIG<b id="sBig">0%</b></div><div class="stat">SMALL<b id="sSmall">0%</b></div></div></div><div class="card"><div class="section">NUMBER FREQUENCY</div><div id="freq" class="chart"></div></div></section>
+<section id="trends" class="screen" hidden><div class="section">TREND ANALYSIS</div><div class="card"><div class="tabs"><button class="tab active" data-tab="bs">Big / Small</button><button class="tab" data-tab="color">Colour</button><button class="tab" data-tab="number">Number</button></div><div id="trendText" class="notice">Waiting for source data…</div></div></section>
+<section id="settings" class="screen" hidden><div class="section">SETTINGS</div><div class="card"><div class="box"><div class="label">OPTIONAL CORS PROXY</div><input id="proxyUrl" placeholder="https://YOUR-WORKER.workers.dev"><button id="saveProxy" class="apiBtn">SAVE PROXY</button><div class="notice" style="margin-top:9px">If GitHub Pages blocks the live API, deploy the included <b>worker.js</b> to Cloudflare Workers and paste its URL here. The app will then use the proxy automatically.</div></div></div><div class="card"><div class="notice">This is a statistical/reference scanner. It does not know or guarantee the next random outcome and is not an official 55/82/91 Club connection.</div></div></section>
+<footer class="developer">✦ <span>Developed by</span> <strong>Subham Giri</strong> ✦</footer>
+</main>
+<nav><button class="active" data-screen="home"><b>⌂</b>Home</button><button data-screen="stats"><b>▥</b>Stats</button><button data-screen="trends"><b>⌁</b>Trends</button><button data-screen="settings"><b>⚙</b>Settings</button></nav>
 </div>
-
 <script>
-const colors = ["Green","Red","Violet"];
-let remaining = 60;
-let counts = {Big:0,Small:0,Green:0,Red:0};
-
-function makeResult(){
-  const n = Math.floor(Math.random()*10);
-  const size = n >= 5 ? "BIG" : "SMALL";
-  const colour = n===0 || n===5 ? "Violet" : (n%2===0 ? "Red" : "Green");
-  document.getElementById("result").textContent=size;
-  document.getElementById("result").className="result "+(size==="BIG"?"big":"small");
-  document.getElementById("number").textContent="Number: "+n;
-  document.getElementById("colour").textContent="Colour: "+colour;
-  counts[size[0]+size.slice(1).toLowerCase()]++;
-  if(counts[size]===undefined) counts[size]=1;
-  if(colour==="Green") counts.Green++; else if(colour==="Red") counts.Red++;
-  document.getElementById("bigCount").textContent=counts.Big;
-  document.getElementById("smallCount").textContent=counts.Small;
-  document.getElementById("greenCount").textContent=counts.Green;
-  document.getElementById("redCount").textContent=counts.Red;
-
-  const row=document.createElement("div");
-  row.className="row";
-  const dotClass=colour.toLowerCase();
-  row.innerHTML=`<span><span class="dot ${dotClass}"></span>${size}</span><span>${n} • ${colour}</span>`;
-  const h=document.getElementById("history");
-  h.prepend(row);
-  while(h.children.length>8) h.removeChild(h.lastChild);
-}
-function tick(){
-  remaining--;
-  if(remaining<=0){remaining=60;makeResult();}
-  document.getElementById("timer").textContent=remaining;
-  document.getElementById("bar").style.width=(remaining/60*100)+"%";
-}
-document.getElementById("scanBtn").addEventListener("click",makeResult);
-makeResult();
-setInterval(tick,1000);
+(function(){
+'use strict';
+const API='https://indialotteryapi.com/wp-json/wingo/v1';
+let proxy=(localStorage.getItem('wingoProxy')||'').replace(/\/$/,'');
+let rows=[];let busy=false;let lastPeriod='';let lastRemain=60;let timerHandle=null;
+const $=id=>document.getElementById(id);
+const size=n=>n>=5?'BIG':'SMALL';
+const color=n=>n===0?'RED + VIOLET':n===5?'GREEN + VIOLET':[1,3,7,9].includes(n)?'GREEN':'RED';
+const colorClass=c=>c.includes('GREEN')?'green':c.includes('RED')?'red':'violet';
+function endpoint(action){return proxy?proxy+'/?action='+action:API+'/'+action+'?market=1';}
+async function get(action){const c=new AbortController();const t=setTimeout(()=>c.abort(),7000);try{const r=await fetch(endpoint(action)+(endpoint(action).includes('?')?'&':'?')+'ts='+Date.now(),{cache:'no-store',mode:'cors',headers:{Accept:'application/json'},signal:c.signal});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}finally{clearTimeout(t)}}
+function extractRows(d){const a=Array.isArray(d)?d:(d?.results||d?.history||d?.records||d?.list||d?.rows||d?.data?.results||d?.data?.history||d?.data?.list||d?.data||[]);return (Array.isArray(a)?a:[]).map(x=>{const n=Number(x.number??x.num??x.result??x.digit??x.openNumber??x.open_number??x.winningNumber);const p=String(x.issue_number??x.issueNumber??x.period??x.issue??x.id??'');return Number.isInteger(n)&&n>=0&&n<=9?{number:n,period:p}:null}).filter(Boolean)}
+function showPrediction(p,source){if(!p)return;const n=Number(p.n),c=color(n);$('nextNumber').textContent=n;$('nextNumber').className='next-number '+colorClass(String(p.colour||c));$('nextSide').textContent=String(p.side||size(n));$('nextColor').textContent='SOURCE: '+String(p.colour||c);$('nextPercent').textContent=Number.isFinite(Number(p.confidence))&&Number(p.confidence)>0?Math.round(Number(p.confidence))+'%':'REFERENCE';$('predictionAnalysis').textContent=source+(p.period?' • PERIOD '+p.period:'')+' • '+String(p.side||size(n))+' • '+String(p.colour||c)+' • '+(Number.isFinite(Number(p.confidence))?Math.round(Number(p.confidence))+'%':'reference')}
+function fallback(){if(!rows.length)return null;const r=rows.slice(0,20),cnt=Array(10).fill(0);r.forEach(x=>cnt[x.number]++);let n=0;for(let i=1;i<10;i++)if(cnt[i]>cnt[n])n=i;const big=r.filter(x=>x.number>=5).length,small=r.length-big;const conf=Math.min(85,Math.max(51,Math.round(50+Math.abs(big-small)/r.length*35)));return{n,side:big>=small?'BIG':'SMALL',colour:color(n),confidence:conf}};
+function showOutcome(){if(!rows.length)return;const x=rows[0];$('outcomeValue').textContent=x.number+' • '+size(x.number);$('outcomeMeta').textContent=(x.period?'Period '+x.period+' • ':'')+color(x.number)}
+function renderHistory(){const h=$('history');h.innerHTML=rows.slice(0,15).map(x=>{const c=color(x.number),cl=c.includes('GREEN')?'g':c.includes('RED')?'r':'v';return '<div class="resultCard"><div class="resultBall '+cl+'">'+x.number+'</div><div class="resultType">'+size(x.number)+'</div><div class="resultColor">'+c+'</div></div>'}).join('')}
+function renderStats(){const n=rows.length,b=rows.filter(x=>x.number>=5).length;$('sRounds').textContent=n;$('sBig').textContent=n?Math.round(b/n*100)+'%':'0%';$('sSmall').textContent=n?Math.round((n-b)/n*100)+'%':'0%';const f=Array(10).fill(0);rows.forEach(x=>f[x.number]++);const m=Math.max(1,...f);$('freq').innerHTML=f.map((v,i)=>'<div class="bar" style="height:'+Math.max(8,v/m*100)+'%"><span>'+i+': '+v+'</span></div>').join('')}
+function renderTrends(){if(!rows.length)return;$('trendText').textContent='Last '+Math.min(20,rows.length)+' settled rounds: '+rows.slice(0,20).map(x=>x.number).join(' • ')+'\n\nBig/Small is calculated from the settled digits; this is a reference trend, not a guaranteed forecast.'}
+function renderBoard(){let html='';for(let i=0;i<10;i++){const c=color(i);const cl=c==='GREEN'?'greenN':c==='RED'?'redN':c.includes('RED')?'rvN':c.includes('GREEN')?'gvN':'violetN';html+='<div class="gameNum '+cl+'">'+i+'</div>'}$('numberGrid').innerHTML=html}
+async function refresh(){if(busy)return;busy=true;let connected=false;try{const [n,h,p]=await Promise.allSettled([get('next'),get('history'),get('predict')]);if(n.status==='fulfilled'){connected=true;const x=n.value||{};lastRemain=Math.max(0,Math.min(60,Number(x.remain??x.seconds_remaining??60)));const period=String(x.period||'');if(period)$('period').textContent=period;if(period&&lastPeriod&&period!==lastPeriod){/* round boundary */}if(period)lastPeriod=period}if(h.status==='fulfilled'){const rr=extractRows(h.value);if(rr.length){rows=rr;connected=true;showOutcome();renderHistory();renderStats();renderTrends()}}let pred=null;if(p.status==='fulfilled'){const q=p.value?.prediction||p.value?.data?.prediction||p.value?.data||p.value;const n=Number(q?.digit??q?.number??q?.num);if(Number.isInteger(n)&&n>=0&&n<=9){pred={n,side:String(q?.bigSmall??q?.big_small??q?.size??size(n)).toUpperCase(),colour:String(q?.color??q?.colour??color(n)).toUpperCase(),confidence:Number(q?.conf??q?.confidence??q?.confidence_rate),period:q?.period};connected=true}}if(pred)showPrediction(pred,'LIVE SOURCE PREDICTION');else{const fb=fallback();if(fb)showPrediction(fb,'TREND REFERENCE — SOURCE PREDICTION UNAVAILABLE')}const st=$('sourceStatus');st.textContent=pred?'● LIVE PREDICTION CONNECTED':connected?'● LIVE HISTORY / TREND REFERENCE':'● LIVE DATA UNAVAILABLE';st.className='status '+(pred||connected?'ok':'bad')}catch(e){console.warn(e);$('sourceStatus').textContent='● LIVE DATA UNAVAILABLE';$('sourceStatus').className='status bad';if(!rows.length)$('predictionAnalysis').textContent='SOURCE CONNECTION FAILED — NO FAKE RESULT SHOWN'}finally{busy=false}}
+function tick(){lastRemain=Math.max(0,lastRemain-1);$('countdown').textContent='00:'+String(lastRemain).padStart(2,'0');$('countdown').classList.toggle('warn',lastRemain<=10);if(lastRemain===0){setTimeout(refresh,500);lastRemain=60}}
+setInterval(tick,1000);setInterval(refresh,10000);renderBoard();refresh();
+$('saveProxy').onclick=()=>{proxy=$('proxyUrl').value.trim().replace(/\/$/,'');localStorage.setItem('wingoProxy',proxy);refresh()};$('proxyUrl').value=proxy;
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.screen').forEach(s=>s.hidden=true);$(b.dataset.screen).hidden=false;document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderTrends()});
+})();
 </script>
-</body>
-</html>
+</body></html>
