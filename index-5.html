@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#050509">
+<title>KALI // WINGO AI SCANNER</title>
+<style>
+:root{--bg:#050509;--panel:#0a0b12;--line:#24263a;--cyan:#00eaff;--pink:#ff2bd6;--violet:#8b5cff;--green:#00ff9d;--red:#ff426d;--gold:#ffd34d}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:#f5f7ff;font-family:Inter,system-ui,Arial,sans-serif}
+body{overflow-x:hidden;background:
+radial-gradient(circle at 50% 15%,#291044 0,transparent 34%),
+radial-gradient(circle at 10% 80%,#001f2b 0,transparent 30%),#050509}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+.wrap{width:min(720px,100%);margin:auto;padding:16px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.brand{font-weight:900;letter-spacing:2px;font-size:18px}.brand b{color:var(--cyan)}.brand span{color:var(--pink)}
+.status{font-size:10px;color:var(--green);border:1px solid #00ff9d66;padding:6px 9px;border-radius:20px;box-shadow:0 0 15px #00ff9d22}
+.hero{position:relative;overflow:hidden;border:1px solid #7039a055;border-radius:24px;background:linear-gradient(145deg,#0c0714dd,#080b13ee);padding:18px;text-align:center;box-shadow:0 0 40px #7c2cff18,inset 0 0 30px #00eaff06}
+.kali{width:150px;height:150px;margin:2px auto 8px;position:relative;filter:drop-shadow(0 0 14px #ff2bd655)}
+.kali svg{width:100%;height:100%}
+.scanring{position:absolute;inset:0;border:1px solid #00eaff55;border-radius:50%;animation:spin 5s linear infinite}
+.scanring:after{content:"";position:absolute;left:50%;top:-4px;width:7px;height:7px;background:var(--cyan);border-radius:50%;box-shadow:0 0 16px var(--cyan)}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{opacity:.45;transform:scale(.99)}}@keyframes blink{50%{opacity:.3}}
+h1{font-size:25px;margin:4px 0 4px;letter-spacing:1px}.sub{font-size:11px;color:#8f96ad}
+.ai{margin-top:13px;border:1px solid #00eaff44;border-radius:14px;padding:10px;text-align:left;background:#061017aa;font-family:ui-monospace,monospace;font-size:11px;color:#9defff}
+.ai .cursor{animation:blink 1s infinite;color:var(--cyan)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.card{border:1px solid var(--line);border-radius:16px;background:#090c14e8;padding:14px;box-shadow:inset 0 0 18px #fff003}
+.card h2{font-size:12px;margin:0 0 10px;color:#a9afc5;letter-spacing:1px}.big{font-size:35px;font-weight:950}.cyan{color:var(--cyan)}.pink{color:var(--pink)}
+.timer{text-align:center;font:900 42px ui-monospace,monospace;color:var(--green);text-shadow:0 0 16px #00ff9d66}.bar{height:5px;border-radius:9px;background:#181d2b;overflow:hidden}.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--violet));transition:width 1s linear}
+.result{grid-column:1/-1;text-align:center;padding:16px;border:1px solid #00eaff33;border-radius:16px;background:linear-gradient(135deg,#071018,#110817)}
+.result .label{font-size:10px;color:#737c96;letter-spacing:2px}.result strong{display:block;font-size:45px;margin:4px;text-shadow:0 0 20px currentColor}.result small{color:#9ca4b9}
+.pills{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:8px}.pill{font-size:10px;padding:6px 9px;border-radius:20px;background:#121625;border:1px solid #2b3045}.green{color:var(--green)}.red{color:var(--red)}.gold{color:var(--gold)}
+button{width:100%;margin-top:11px;padding:14px;border:1px solid #00eaff77;border-radius:14px;background:linear-gradient(90deg,#071b25,#1b0920);color:#fff;font-weight:900;letter-spacing:1px;box-shadow:0 0 22px #00eaff18}button:active{transform:scale(.98)}
+.terminal{margin-top:10px;border:1px solid #202438;border-radius:14px;background:#05070b;padding:12px;font:10px/1.7 ui-monospace,monospace;color:#7e8aa4;min-height:118px}.terminal b{color:var(--green)}
+.history{display:grid;gap:7px;margin-top:8px}.row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:9px;border-radius:10px;background:#0e121c;font:11px ui-monospace,monospace}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}
+.footer{text-align:center;color:#646c80;font-size:9px;line-height:1.6;padding:14px 5px}.warn{color:#8d94a8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><b>KALI</b> // <span>WINGO</span> AI</div>
+    <div class="status">● SYSTEM ONLINE</div>
+  </div>
+
+  <section class="hero">
+    <div class="kali" aria-label="Maa Kali inspired cyber artwork">
+      <div class="scanring"></div>
+      <svg viewBox="0 0 180 180" role="img">
+        <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#00eaff"/><stop offset=".5" stop-color="#ff2bd6"/><stop offset="1" stop-color="#8b5cff"/></linearGradient></defs>
+        <circle cx="90" cy="90" r="67" fill="#080712" stroke="url(#g)" stroke-width="2"/>
+        <path d="M58 54 Q90 28 122 54 L116 96 Q109 127 90 143 Q71 127 64 96Z" fill="#151326" stroke="#ff2bd6" stroke-width="2"/>
+        <path d="M70 69 Q90 55 110 69 M68 84 Q90 74 112 84" fill="none" stroke="#00eaff" stroke-width="2"/>
+        <circle cx="77" cy="76" r="5" fill="#fff"/><circle cx="103" cy="76" r="5" fill="#fff"/>
+        <circle cx="77" cy="76" r="2" fill="#ff2bd6"/><circle cx="103" cy="76" r="2" fill="#ff2bd6"/>
+        <path d="M82 102 Q90 108 98 102" fill="none" stroke="#ff426d" stroke-width="3"/>
+        <path d="M61 57 L42 42 M66 48 L52 25 M119 57 L138 42 M114 48 L128 25 M61 116 L39 132 M119 116 L141 132" stroke="url(#g)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M56 48 L47 33 M124 48 L133 33" stroke="#ffd34d" stroke-width="2"/>
+        <text x="90" y="162" text-anchor="middle" fill="#9defff" font-size="8" font-family="monospace">MAA KALI // DIGITAL GUARDIAN</text>
+      </svg>
+    </div>
+    <h1>WINGO LIVE SCANNER</h1>
+    <div class="sub">NEURAL-STYLE INTERFACE • DEMO SIMULATION</div>
+    <div class="ai">&gt; KALI_CORE: <span id="aiText">initializing neural visualizer...</span><span class="cursor">█</span></div>
+  </section>
+
+  <div class="grid">
+    <div class="card">
+      <h2>NEXT ROUND</h2>
+      <div class="timer" id="timer">60</div>
+      <div class="bar"><i id="bar"></i></div>
+    </div>
+    <div class="card">
+      <h2>SCAN ENGINE</h2>
+      <div class="big cyan" id="engine">READY</div>
+      <div class="sub">KALI-NEURAL v1.0</div>
+    </div>
+
+    <div class="result">
+      <div class="label">LIVE RESULT • SIMULATED</div>
+      <strong id="result">BIG</strong>
+      <small id="meta">Number 7 • Green</small>
+      <div class="pills">
+        <span class="pill cyan" id="confidence">SIMULATION</span>
+        <span class="pill green">REAL-TIME UI</span>
+        <span class="pill pink">AI STYLE</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>BIG / SMALL</h2>
+      <div><span class="sub">BIG</span> <b id="bigCount">0</b></div>
+      <div><span class="sub">SMALL</span> <b id="smallCount">0</b></div>
+    </div>
+    <div class="card">
+      <h2>COLOUR MATRIX</h2>
+      <div><span class="green">GREEN</span> <b id="greenCount">0</b></div>
+      <div><span class="red">RED</span> <b id="redCount">0</b></div>
+    </div>
+  </div>
+
+  <button id="scan">⚡ ACTIVATE KALI SCAN</button>
+
+  <div class="terminal" id="terminal">
+    <div>&gt; boot sequence started...</div>
+    <div>&gt; loading <b>KALI_CORE</b>...</div>
+    <div>&gt; neural visualizer online</div>
+    <div>&gt; waiting for simulated round...</div>
+  </div>
+
+  <div class="card">
+    <h2>RECENT SCANS</h2>
+    <div class="history" id="history"></div>
+  </div>
+
+  <div class="footer">
+    <div class="warn">⚠ DEMO ONLY — outcomes are randomly simulated in your browser.</div>
+    This interface does not access or predict real Wingo/game results and should not be used for betting decisions.
+  </div>
+</div>
+
+<script>
+let left=60, big=0, small=0, green=0, red=0;
+const aiLines=[
+ "analyzing visual signal matrix...",
+ "Kali core synchronized.",
+ "simulating round entropy...",
+ "rendering neural HUD...",
+ "demo signal locked.",
+ "generating random test state..."
+];
+const $=id=>document.getElementById(id);
+
+function log(msg){
+ const t=$("terminal"), d=document.createElement("div");
+ d.innerHTML="&gt; "+msg; t.appendChild(d);
+ while(t.children.length>7)t.removeChild(t.firstChild);
+}
+function scan(){
+ $("engine").textContent="SCANNING";
+ setTimeout(()=>{
+   const n=Math.floor(Math.random()*10);
+   const size=n>=5?"BIG":"SMALL";
+   const colour=(n===0||n===5)?"VIOLET":(n%2===0?"RED":"GREEN");
+   $("result").textContent=size;
+   $("result").style.color=size==="BIG"?"var(--pink)":"var(--cyan)";
+   $("meta").textContent=`Number ${n} • ${colour}`;
+   $("confidence").textContent="SIMULATED";
+   big += size==="BIG"; small += size==="SMALL";
+   green += colour==="GREEN"; red += colour==="RED";
+   $("bigCount").textContent=big; $("smallCount").textContent=small;
+   $("greenCount").textContent=green; $("redCount").textContent=red;
+   const r=document.createElement("div"); r.className="row";
+   const c=colour==="GREEN"?"green":colour==="RED"?"red":"gold";
+   r.innerHTML=`<span><span class="dot ${c}" style="background:currentColor"></span>${size}</span><span>${n}</span><span class="${c}">${colour}</span>`;
+   $("history").prepend(r); while($("history").children.length>8)$("history").lastChild.remove();
+   $("engine").textContent="READY";
+   log(`round simulated → ${size} / ${n} / ${colour}`);
+ },450);
+}
+$("scan").onclick=scan;
+setInterval(()=>{
+ left--; if(left<=0){left=60;scan();}
+ $("timer").textContent=String(left).padStart(2,"0");
+ $("bar").style.width=(left/60*100)+"%";
+ $("aiText").textContent=aiLines[Math.floor(Date.now()/2500)%aiLines.length];
+},1000);
+scan();
+</script>
+</body>
+</html>
