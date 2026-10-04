@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#070A0F">
+<title>Wingo Live Scanner — Demo</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#070A0F;color:#fff;font-family:Arial,Helvetica,sans-serif;min-height:100vh}
+.wrap{max-width:480px;margin:auto;padding:18px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.logo{font-weight:800;letter-spacing:1px;color:#00FF88}.demo{font-size:11px;border:1px solid #00FF88;color:#00FF88;padding:5px 8px;border-radius:20px}
+.card{background:#0d121a;border:1px solid #202b38;border-radius:18px;padding:20px;margin-bottom:14px;box-shadow:0 10px 30px #0005}
+.title{font-size:24px;font-weight:800;margin:0 0 6px}.muted{color:#8995a5;font-size:13px}
+.timer{font-size:54px;font-weight:800;text-align:center;color:#00FF88;margin:10px 0}
+.scan{height:8px;background:#16202b;border-radius:10px;overflow:hidden}.bar{height:100%;width:100%;background:#00FF88;transition:width 1s linear}
+.result{text-align:center;font-size:42px;font-weight:900;margin:18px 0 6px}.result.big{color:#00FF88}.result.small{color:#5bb7ff}
+.badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.badge{padding:7px 12px;border-radius:20px;background:#151e29;font-size:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#111923;padding:14px;border-radius:12px}.num{font-size:22px;font-weight:800;margin-top:4px}
+.history{display:flex;flex-direction:column;gap:8px}.row{display:flex;justify-content:space-between;align-items:center;background:#111923;padding:11px 12px;border-radius:10px;font-size:13px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px}.red{background:#ff405c}.green{background:#00d982}.violet{background:#a56bff}
+button{width:100%;border:0;border-radius:12px;padding:13px;background:#00FF88;color:#00130a;font-weight:800;font-size:15px;cursor:pointer}
+.note{font-size:11px;line-height:1.5;color:#748091;text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="logo">WINGO LIVE SCANNER</div>
+    <div class="demo">DEMO MODE</div>
+  </div>
+
+  <div class="card">
+    <div class="title">Live Scan</div>
+    <div class="muted">Simulated round scanner — not a real prediction service</div>
+    <div class="timer" id="timer">60</div>
+    <div class="scan"><div class="bar" id="bar"></div></div>
+    <div class="result" id="result">BIG</div>
+    <div class="badges">
+      <span class="badge" id="number">Number: 8</span>
+      <span class="badge" id="colour">Colour: Green</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title">Frequency Statistics</div>
+    <div class="grid">
+      <div class="stat"><div class="muted">Big</div><div class="num" id="bigCount">0</div></div>
+      <div class="stat"><div class="muted">Small</div><div class="num" id="smallCount">0</div></div>
+      <div class="stat"><div class="muted">Green</div><div class="num" id="greenCount">0</div></div>
+      <div class="stat"><div class="muted">Red</div><div class="num" id="redCount">0</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title">Recent History</div>
+    <div class="history" id="history"></div>
+  </div>
+
+  <button id="scanBtn">RUN DEMO SCAN</button>
+  <div class="note">Demo only. Results are randomly simulated in your browser and do not predict real Wingo/game outcomes.</div>
+</div>
+
+<script>
+const colors = ["Green","Red","Violet"];
+let remaining = 60;
+let counts = {Big:0,Small:0,Green:0,Red:0};
+
+function makeResult(){
+  const n = Math.floor(Math.random()*10);
+  const size = n >= 5 ? "BIG" : "SMALL";
+  const colour = n===0 || n===5 ? "Violet" : (n%2===0 ? "Red" : "Green");
+  document.getElementById("result").textContent=size;
+  document.getElementById("result").className="result "+(size==="BIG"?"big":"small");
+  document.getElementById("number").textContent="Number: "+n;
+  document.getElementById("colour").textContent="Colour: "+colour;
+  counts[size[0]+size.slice(1).toLowerCase()]++;
+  if(counts[size]===undefined) counts[size]=1;
+  if(colour==="Green") counts.Green++; else if(colour==="Red") counts.Red++;
+  document.getElementById("bigCount").textContent=counts.Big;
+  document.getElementById("smallCount").textContent=counts.Small;
+  document.getElementById("greenCount").textContent=counts.Green;
+  document.getElementById("redCount").textContent=counts.Red;
+
+  const row=document.createElement("div");
+  row.className="row";
+  const dotClass=colour.toLowerCase();
+  row.innerHTML=`<span><span class="dot ${dotClass}"></span>${size}</span><span>${n} • ${colour}</span>`;
+  const h=document.getElementById("history");
+  h.prepend(row);
+  while(h.children.length>8) h.removeChild(h.lastChild);
+}
+function tick(){
+  remaining--;
+  if(remaining<=0){remaining=60;makeResult();}
+  document.getElementById("timer").textContent=remaining;
+  document.getElementById("bar").style.width=(remaining/60*100)+"%";
+}
+document.getElementById("scanBtn").addEventListener("click",makeResult);
+makeResult();
+setInterval(tick,1000);
+</script>
+</body>
+</html>
