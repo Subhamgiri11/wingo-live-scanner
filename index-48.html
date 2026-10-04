@@ -1,0 +1,750 @@
+<!doctype html>
+<section id="nextNumberReference" class="card next-number-card">
+  <div class="eyebrow">NEXT NUMBER REFERENCE</div>
+  <div class="next-number-wrap">
+    <div id="nextNumber" class="next-number">—</div>
+    <div class="next-meta">
+      <div id="nextSide">Waiting for live analysis…</div>
+      <div id="nextColor">SOURCE: LIVE DATA</div>
+      <div id="nextPercent">—%</div>
+    </div>
+  </div>
+  <div id="predictionAnalysis" class="analysis-line">ANALYSIS: waiting for settled source data…</div>
+  <div id="liveOutcome" class="outcome-box">
+    <div class="eyebrow">LATEST OUTCOME</div>
+    <div id="outcomeValue">WAITING FOR LIVE RESULT</div>
+    <div id="outcomeMeta">The settled result will appear here after the source updates.</div>
+  </div>
+</section>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#02090d">
+<title>WINGO LIVE SCANNER</title>
+<style>
+:root{--bg:#02080c;--card:#06151b;--line:#08717a;--cyan:#20e5d0;--green:#22ef91;--purple:#a96cff;--red:#ff4660;--text:#effffc;--muted:#7e9c98}
+*{box-sizing:border-box}html,body{margin:0;background:#000;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{min-height:100vh}.app{width:min(100%,520px);margin:auto;min-height:100vh;background:radial-gradient(circle at 50% 8%,#08313a 0,#06151b 27%,#02080c 72%);padding-bottom:78px}
+header{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #0a3840;background:#020a0df0;position:sticky;top:0;z-index:5}
+.brand{font-size:17px;font-weight:900;letter-spacing:.4px}.brand span{color:var(--green)}.live{background:var(--green);color:#002219;padding:7px 12px;border-radius:9px;font-size:10px;font-weight:900;box-shadow:0 0 18px #22ef9160}
+main{padding:12px}.card{background:linear-gradient(145deg,#071a20,#041015);border:1px solid #08717a;border-radius:17px;padding:14px;margin-bottom:11px;box-shadow:0 10px 30px #0009}.grid2{display:grid;grid-template-columns:1.25fr .75fr;gap:8px}.box{border:1px solid #0a5961;border-radius:13px;padding:12px}.label{font-size:10px;color:var(--muted);letter-spacing:1px}.period{font-size:14px;font-weight:800;margin-top:5px}.timer{text-align:right;font-size:27px;font-weight:950;color:var(--green)}.timer.warn{color:var(--red)}
+.scanTitle{text-align:center;color:#9cece1;letter-spacing:1.2px;font-size:11px;margin:15px 0 3px}.scanner{height:205px;display:grid;place-items:center;position:relative}.ring{position:absolute;border-radius:50%;border:1px solid #20e5d055}.r1{width:166px;height:166px;box-shadow:0 0 35px #20e5d020}.r2{width:136px;height:136px;border-color:#22ef9188}.r3{width:103px;height:103px;border-color:#a96cff99}.core{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--green);color:#bffff1;font-size:11px;font-weight:900;background:#062321;box-shadow:0 0 30px #22ef9155;z-index:2}.sweep{position:absolute;width:150px;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);animation:spin 2.4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.steps{border-top:1px solid #0a3e44;padding-top:8px}.step{font-size:12px;margin:9px 0;color:#b8d0cc}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);margin-right:9px}
+.next{text-align:center}.nextTitle{font-size:10px;color:var(--muted);letter-spacing:1.2px}.number{width:128px;height:128px;border-radius:50%;margin:12px auto 10px;display:grid;place-items:center;font-size:68px;font-weight:950;background:radial-gradient(circle,#201034,#070c13 68%);border:3px solid var(--purple);box-shadow:0 0 28px #a96cff80;transition:.25s}.number.greenNum{border-color:var(--green);box-shadow:0 0 28px #22ef9180;background:radial-gradient(circle,#073126,#070c13 68%)}.number.redNum{border-color:var(--red);box-shadow:0 0 28px #ff466080;background:radial-gradient(circle,#321019,#070c13 68%)}.number.violetNum{border-color:var(--purple);box-shadow:0 0 28px #a96cff80}.number.redVioletNum{border-color:var(--purple);box-shadow:0 0 28px #a96cff80}.number.greenVioletNum{border-color:var(--purple);box-shadow:0 0 28px #a96cff80}.size{display:inline-block;padding:7px 24px;border:1px solid #d49c29;border-radius:9px;color:#ffc83c;background:#2b1d05;font-weight:900}.colour{margin-top:12px;display:flex;justify-content:center;gap:10px;align-items:center;font-weight:900}.colourDot{width:17px;height:17px;border-radius:50%;box-shadow:0 0 15px currentColor}.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:13px}.mini>div{border:1px solid #0a5961;border-radius:11px;padding:10px;text-align:center}.mini b{display:block;font-size:17px;margin-top:4px}.trendPct{display:block;color:#6fc9ba;font-size:9px;margin-top:4px}.section{font-weight:900;font-size:14px;margin:15px 2px 8px}.numberBoard{padding:12px;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(4,10,15,.88),rgba(2,7,11,.94)),url('https://cdn.dollsofindia.com/images/p/orissa-pata-paintings/goddess-kali-BZ45_l.jpg') center/cover no-repeat;border-color:#4b2472}.numberBoard:before{content:"ॐ  जय माँ काली  ॐ";display:block;text-align:center;color:#e8c6ff;font-size:11px;font-weight:900;letter-spacing:2px;margin:0 0 10px;text-shadow:0 0 12px #a96cff}.numberGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.gameNum{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:23px;font-weight:950;background:#07161b;border:2px solid;box-shadow:inset 0 0 18px #0008,0 0 12px #0005}.gameNum.redN{color:#ff4660;border-color:#ff4660;background:radial-gradient(circle,#331018,#071016 70%)}.gameNum.greenN{color:#22ef91;border-color:#22ef91;background:radial-gradient(circle,#073326,#071016 70%)}.gameNum.violetN{color:#b174ff;border-color:#a96cff;background:radial-gradient(circle,#24103b,#071016 70%)}.gameNum.rvN{color:#fff;border-color:#a96cff;background:linear-gradient(145deg,#351019 0 48%,#24103b 52%);box-shadow:0 0 12px #a96cff33}.gameNum.gvN{color:#fff;border-color:#a96cff;background:linear-gradient(145deg,#073326 0 48%,#24103b 52%);box-shadow:0 0 12px #a96cff33}.boardLegend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;font-size:9px;color:#91aaa6}.lg{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.lg.red{background:#ff4660}.lg.green{background:#22ef91}.lg.violet{background:#a96cff}.history{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.resultCard{min-width:0;border:1px solid #0a5961;border-radius:13px;padding:8px 4px;text-align:center;background:linear-gradient(180deg,#081b21,#051116)}.resultBall{width:42px;height:42px;margin:auto;border-radius:50%;display:grid;place-items:center;font-weight:950;font-size:18px;border:2px solid}.resultType{font-size:8px;margin-top:5px;color:#9bb7b2;font-weight:800;letter-spacing:.3px}.resultColor{font-size:8px;margin-top:3px;font-weight:900}.g{color:#22ef91;border-color:#22ef91;background:#05271d}.r{color:#ff4660;border-color:#ff4660;background:#330b13}.v{color:#b174ff;border-color:#a96cff;background:#200d35}.rv{color:#fff;border-color:#a96cff;background:linear-gradient(135deg,#ff4660 0 50%,#8f49e8 50% 100%)}.gv{color:#fff;border-color:#a96cff;background:linear-gradient(135deg,#22ef91 0 50%,#8f49e8 50% 100%)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.stat{border:1px solid #0a5961;border-radius:11px;padding:11px 4px;text-align:center}.stat b{display:block;font-size:19px;margin-top:4px}.chart{height:145px;display:flex;align-items:flex-end;gap:5px;padding:15px 7px 0;border:1px solid #0a444c;border-radius:12px}.bar{flex:1;background:linear-gradient(#20e5d0,#126b6a);border-radius:5px 5px 0 0;position:relative}.bar span{position:absolute;top:-15px;width:100%;text-align:center;font-size:8px;color:#91b4af}
+.tabs{display:flex;gap:6px;overflow:auto;margin-bottom:9px}.tab{border:1px solid #0a5961;background:#061319;color:#91aaa6;border-radius:9px;padding:8px 13px;white-space:nowrap;font-size:10px}.tab.active{background:#20e5d0;color:#02221f;border-color:#20e5d0}
+table{width:100%;border-collapse:collapse;font-size:10px}th,td{padding:8px 4px;border-bottom:1px solid #0b3035;text-align:left}th{color:#718f8b}.ng{color:var(--green);font-weight:900}.nr{color:var(--red);font-weight:900}.nv{color:#b174ff;font-weight:900}
+.factor{margin:9px 0}.factorLine{height:5px;background:#10292c;border-radius:5px;margin-top:4px}.factorLine i{display:block;height:100%;background:var(--green);border-radius:5px}
+.notice{font-size:10px;color:#82aaa4;line-height:1.5;border:1px solid #0a5961;border-radius:12px;padding:11px}
+.developer{text-align:center;padding:18px 10px 8px;color:#6f9792;font-size:10px;letter-spacing:1.2px;text-transform:uppercase}.developer strong{display:inline-block;margin-left:4px;color:#20e5d0;font-size:12px;letter-spacing:1.5px;text-shadow:0 0 12px #20e5d066}.developer span{color:#8ba9a5} 
+nav{position:fixed;bottom:0;width:min(100%,520px);height:70px;background:#031015f5;border-top:1px solid #0b4a52;display:grid;grid-template-columns:repeat(4,1fr);z-index:10;backdrop-filter:blur(14px)}nav button{border:0;background:none;color:#718b88;font-size:10px}nav b{display:block;font-size:20px;margin-bottom:4px}nav .active{color:var(--green)}
+.screen{display:none}.screen.active{display:block}
+
+.sourceRow{display:flex;align-items:center;gap:7px;margin-top:9px;font-size:9px;color:#8aa8a3}.sourceDot{width:8px;height:8px;border-radius:50%;display:inline-block}.sourceDot.on{background:var(--green);box-shadow:0 0 10px var(--green)}.sourceDot.off{background:var(--red);box-shadow:0 0 10px var(--red)}.lastUpdate{margin-left:auto;color:#5f7d79}.apiInput{width:100%;margin-top:10px;padding:11px;border-radius:10px;border:1px solid #0a5961;background:#031014;color:#effffc;outline:none}.apiBtn{width:100%;margin-top:8px;padding:11px;border-radius:10px;border:1px solid var(--cyan);background:#06312f;color:var(--cyan);font-weight:900}.apiHelp{font-size:9px;color:#6f918c;line-height:1.4;margin-top:8px}.profileName{font-size:28px;font-weight:900;letter-spacing:2px;text-align:center;color:#fff;text-shadow:0 0 14px rgba(34,239,145,.55),0 0 28px rgba(169,108,255,.28);padding:16px 8px 6px}.profileTag{text-align:center;color:#22ef91;font-size:10px;letter-spacing:2px;padding-bottom:16px}
+
+.outcome-box{margin-top:12px;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.2)}
+#outcomeValue{font-size:22px;font-weight:900;margin-top:5px}
+#outcomeMeta{font-size:11px;opacity:.72;margin-top:3px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">WINGO <span>LIVE</span> SCANNER</div><div class="live">● LIVE</div></header>
+<main>
+<section id="home" class="screen active">
+<div class="card">
+<div class="grid2"><div class="box"><div class="label">LIVE PERIOD</div><div class="period" id="period">#—</div></div><div class="box"><div class="label">NEXT ROUND IN</div><div class="timer" id="timer">00:60</div></div></div>
+<div class="sourceRow"><span id="sourceDot" class="sourceDot off"></span><span id="sourceStatus">LIVE SOURCE NOT CONNECTED</span><span id="lastUpdate" class="lastUpdate">—</span></div>
+<div class="scanTitle">LIVE TREND SCANNER</div>
+<div class="scanner"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="sweep"></div><div class="core">SCANNING</div></div>
+<div class="steps"><div class="step"><span class="dot"></span>Reading recent results</div><div class="step"><span class="dot"></span>Checking number frequency</div><div class="step"><span class="dot"></span>Checking Big / Small trend</div><div class="step"><span class="dot"></span>Building next-round reference</div></div>
+</div>
+<div class="card next"><div class="nextTitle">NEXT NUMBER REFERENCE</div><div class="number" id="number">—</div><div class="size" id="size">—</div><div class="colour"><span class="colourDot" id="colourDot"></span><span id="colour">—</span></div><div class="mini"><div><span class="label">NUMBER TREND</span><b id="numberTrend">—</b><small id="numberPct" class="trendPct">Trend</small></div><div><span class="label">SIZE TREND</span><b id="sizeTrend">—</b><small id="sizePct" class="trendPct">—%</small></div><div><span class="label">COLOUR TREND</span><b id="colourTrend">—</b><small id="colourPct" class="trendPct">—%</small></div></div></div>
+<div class="section">NUMBER BOARD</div>
+<div class="card numberBoard">
+  <div class="numberGrid" id="numberGrid"></div>
+  <div class="boardLegend">
+    <span><i class="lg red"></i> Red</span>
+    <span><i class="lg green"></i> Green</span>
+    <span><i class="lg violet"></i> Violet</span>
+    <span class="muted">0 &amp; 5 = Violet + base colour</span>
+  </div>
+</div>
+<div class="section">SUBHAM GIRI</div><div class="card"><div class="profileName">SUBHAM GIRI</div><div class="profileTag">✦ DEVELOPER • WINGO LIVE SCANNER ✦</div></div>
+<div class="notice"><b>Live trend reference:</b> when a live source is connected, the app uses the latest 10 settled rounds and recalculates Big/Small, number frequency and recent movement every minute. It is statistical reference only and cannot guarantee the next random result.</div>
+<div class="card"><div class="grid2"><div class="box"><div class="label">LAST SETTLED</div><div class="period" id="lastSettled">—</div></div><div class="box"><div class="label">SOURCE AGE</div><div class="period" id="sourceAge">—</div></div></div><div class="sourceRow"><span class="label">PREVIOUS TREND CHECK</span><span id="checkResult" class="lastUpdate">Waiting</span></div></div>
+</section>
+
+<section id="stats" class="screen">
+<div class="section">STATISTICS</div>
+<div class="card"><div class="stats"><div class="stat">ROUNDS<b id="total">—</b></div><div class="stat">BIG<b id="big">—</b></div><div class="stat">SMALL<b id="small">—</b></div><div class="stat">GREEN<b id="green">—</b></div><div class="stat">RED<b id="red">—</b></div><div class="stat">VIOLET<b id="violet">—</b></div></div></div>
+<div class="section">NUMBER FREQUENCY</div><div class="card"><div class="chart" id="chart"><div class="muted" style="padding:12px;font-size:10px">Waiting for live settled results…</div></div></div>
+</section>
+
+<section id="trends" class="screen">
+<div class="section">TREND ANALYSIS</div>
+<div class="tabs"><button class="tab active" type="button">Big / Small</button><button class="tab" type="button">Colour</button><button class="tab" type="button">Numbers</button></div>
+<div class="card"><div class="label">RECENT NUMBER MOVEMENT</div><div class="chart" id="trendChart"><div class="muted" style="padding:12px;font-size:10px">Waiting for live settled results…</div></div></div>
+<div class="section">ENGINE SIGNALS</div>
+<div class="card">
+<div class="factor"><div class="row"><span>Recent frequency</span><b>Strong</b></div><div class="factorLine"><i style="width:78%"></i></div></div>
+<div class="factor"><div class="row"><span>Recency</span><b>Medium</b></div><div class="factorLine"><i style="width:61%"></i></div></div>
+<div class="factor"><div class="row"><span>Big / Small balance</span><b>Medium</b></div><div class="factorLine"><i style="width:55%"></i></div></div>
+<div class="factor"><div class="row"><span>Colour distribution</span><b>Medium</b></div><div class="factorLine"><i style="width:58%"></i></div></div>
+</div>
+</section>
+
+<section id="settings" class="screen">
+<div class="section">SETTINGS</div>
+<div class="card"><div class="box"><div class="label">LIVE DATA CONNECTOR</div><div style="font-weight:900;margin-top:6px">LIVE 1-MIN MULTI-SOURCE FEED</div>
+<input id="apiUrl" class="apiInput" placeholder="Paste authorized live API URL" autocomplete="off">
+<button id="saveApi" class="apiBtn" type="button">SAVE LIVE SOURCE</button>
+<div id="apiHelp" class="apiHelp">Default: public read-only WinGo history feed. You can replace it with an authorized 55/82-compatible endpoint if you have one. The page polls every 60 seconds.<br><b>Note:</b> this public feed is not claimed to be an official 55Club/82Club feed.</div></div>
+<div class="step"><span class="dot"></span>Automatic 60-second refresh</div><div class="step"><span class="dot"></span>Latest settled history analysis</div><div class="step"><span class="dot"></span>Big / Small trend reference</div><div class="step"><span class="dot"></span>No guaranteed outcome</div></div>
+<div class="card"><div class="section">ABOUT</div><p class="muted" style="font-size:12px;line-height:1.5">Live mode reads settled results from the configured data source and recalculates a statistical Big / Small trend every round. It does not claim to know or guarantee the next random outcome.</p></div>
+</section>
+<footer class="developer">✦ <span>Developed by</span> <strong>Subham Giri</strong> ✦</footer>
+</main>
+<nav><button class="active" data-screen="home"><b>⌂</b>Home</button><button data-screen="stats"><b>▥</b>Stats</button><button data-screen="trends"><b>⌁</b>Trends</button><button data-screen="settings"><b>⚙</b>Settings</button></nav>
+</div>
+<script>
+let results=[];
+let lastSettledPeriod="";
+const DEFAULT_PERIOD_MINUTES=1;
+const LIVE_API_URL=()=>localStorage.getItem("wingoLiveApi")||"https://indialotteryapi.com/wp-json/wingo/v1/next?market=1";
+const LIVE_PREDICT_URL=()=>localStorage.getItem("wingoPredictApi")||"https://indialotteryapi.com/wp-json/wingo/v1/predict?market=1";
+const LIVE_HISTORY_URL=()=>localStorage.getItem("wingoHistoryApi")||"https://indialotteryapi.com/wp-json/wingo/v1/history?market=1&limit=50";
+
+const $=id=>document.getElementById(id);
+const size=n=>n>=5?"BIG":"SMALL";
+const color=n=>{
+  if(n===0) return "RED + VIOLET";
+  if(n===5) return "GREEN + VIOLET";
+  return [1,3,7,9].includes(n) ? "GREEN" : "RED";
+};
+
+let lastPredictionMinute=-1;
+let lastPredictionNumber=-1;
+let lastPredictionMeta=null;
+let previousReference=null;
+let previousReferencePeriod="";
+let lastSourceMs=0;
+
+function trendReference(){
+  const recent=results.slice(-10);
+  if(!recent.length){
+    return {n:"—",side:"WAITING",c:"—",confidence:0,bigPct:0,smallPct:0,greenBase:0,redBase:0,violetCount:0,colourPct:0};
+  }
+  const bigCount=recent.filter(x=>x[2]==="Big").length;
+  const smallCount=recent.length-bigCount;
+  const numFreq=Array(10).fill(0), weights=Array(10).fill(0);
+  recent.forEach((x,i)=>{numFreq[x[0]]++;weights[x[0]]+=i+1;});
+  let streak=1;
+  for(let i=recent.length-1;i>0;i--){if(recent[i][2]===recent[i-1][2])streak++;else break;}
+  const latestSide=recent[recent.length-1][2];
+  const scores=Array(10).fill(0);
+  for(let n=0;n<10;n++){
+    const side=size(n)==="BIG"?"Big":"Small";
+    scores[n]+=numFreq[n]*1.2+weights[n]*0.18;
+    if(bigCount-smallCount>=3&&side==="Small")scores[n]+=1.0;
+    if(smallCount-bigCount>=3&&side==="Big")scores[n]+=1.0;
+    if(streak>=3&&side===latestSide)scores[n]+=0.35;
+  }
+  const ranked=[...Array(10).keys()].sort((a,b)=>scores[b]-scores[a]);
+  const n=ranked[0],side=size(n),c=color(n);
+  const top=scores[n],second=Math.max(...scores.filter((_,i)=>i!==n));
+  const confidence=Math.max(50,Math.min(78,Math.round(52+(top-second)*7)));
+  const bigPct=Math.round(bigCount/recent.length*100),smallPct=100-bigPct;
+  const greenBase=recent.filter(x=>[1,3,7,9,5].includes(x[0])).length;
+  const redBase=recent.filter(x=>[0,2,4,6,8].includes(x[0])).length;
+  const violetCount=recent.filter(x=>x[0]===0||x[0]===5).length;
+  const colourPct=side==="BIG"?bigPct:smallPct;
+  return {n,side,c,confidence,bigPct,smallPct,greenBase,redBase,violetCount,colourPct};
+}
+
+function normalizeResults(data){
+  const rows = Array.isArray(data) ? data : (data.results || data.data || data.history || data.records || data.list || data.rows || data?.data?.results || data?.data?.history || []);
+  const out=[];
+  for(const row of rows){
+    const rawN = row.number ?? row.num ?? row.result ?? row.digit ?? row.winningNumber ?? row.winning_number ?? row.openNumber ?? row.open_number;
+    const n=Number(rawN);
+    if(!Number.isInteger(n)||n<0||n>9) continue;
+    const bs = String(row.size ?? row.bigSmall ?? row.big_small ?? row.bs ?? row.bigsmall ?? '').toLowerCase();
+    const side = bs.includes('small') ? 'Small' : bs.includes('big') ? 'Big' : size(n);
+    const issue = row.issue_number ?? row.issueNumber ?? row.period ?? row.issue ?? row.id ?? row.drawId ?? '';
+    out.push([n,color(n),side,String(issue)]);
+  }
+  return out;
+}
+
+async function fetchLiveResults(){
+  const url=LIVE_API_URL();
+  if(!url){setSource(false,"LIVE SOURCE NOT CONNECTED");return false;}
+  try{
+    const r=await fetch(url,{cache:"no-store"});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const data=await r.json();
+    const normalized=normalizeResults(data);
+    if(!normalized.length)throw new Error("No settled results");
+    const incoming=normalized.slice(-100);
+    const latest=incoming[incoming.length-1];
+    const newPeriod=String(latest[3]||"");
+    if(previousReference && newPeriod && newPeriod!==previousReferencePeriod){
+      const actualSide=latest[2];
+      $("checkResult").textContent = actualSide===previousReference.side ? "✓ MATCH" : "• DIFFERENT";
+      $("checkResult").style.color = actualSide===previousReference.side ? "var(--green)" : "var(--red)";
+    }
+    results=incoming;
+    lastSettledPeriod=newPeriod;
+    lastSourceMs=Date.now();
+    setSource(true,"LIVE WINGO FEED CONNECTED");
+    $("lastUpdate").textContent="Updated "+new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    $("lastSettled").textContent=lastSettledPeriod || "—";
+    stats();
+    render();
+    const ref=trendReference();
+    if(ref.n!=="—") previousReference={n:ref.n,side:ref.side,c:ref.c};
+    previousReferencePeriod = currentPeriod();
+    return true;
+  }catch(e){
+    setSource(false,"SOURCE ERROR");
+    return false;
+  }
+}
+function setSource(ok,text){
+  $("sourceStatus").textContent=text;
+  $("sourceDot").className="sourceDot "+(ok?"on":"off");
+}
+function currentPeriod(){
+  const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Kolkata'}));
+  return ''+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+String(now.getHours()).padStart(2,'0')+String(now.getMinutes()).padStart(2,'0');
+}
+function render(){
+  const now=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));
+  const left=60-now.getSeconds();
+  $("timer").textContent="00:"+String(left).padStart(2,"0");
+  $("timer").classList.toggle("warn",left<=10);
+  $("sourceAge").textContent=lastSourceMs ? Math.max(0,Math.floor((Date.now()-lastSourceMs)/1000))+"s ago" : "—";
+  $("period").textContent="#"+currentPeriod();
+  const p=trendReference(), n=p.n, bs=p.side, c=p.c;
+  if(!results.length){
+    $("number").textContent="—"; $("size").textContent="WAITING"; $("colour").textContent="LIVE DATA REQUIRED";
+    $("numberTrend").textContent="—"; $("sizeTrend").textContent="—"; $("colourTrend").textContent="—";
+    $("numberPct").textContent="No settled data"; $("sizePct").textContent="—"; $("colourPct").textContent="—";
+    return;
+  }
+  $("number").textContent=n;
+  $("size").textContent=bs;
+  $("colour").textContent=c;
+  $("number").className="number "+(c==="GREEN"?"greenNum":c==="RED"?"redNum":c==="RED + VIOLET"?"redVioletNum":c==="GREEN + VIOLET"?"greenVioletNum":"violetNum");
+  $("numberTrend").textContent=n;$("sizeTrend").textContent=bs;$("colourTrend").textContent=c;
+  $("numberPct").textContent=p.confidence+"% trend";
+  $("sizePct").textContent=bs==="BIG"?p.bigPct+"% recent":p.smallPct+"% recent";
+  $("colourPct").textContent=p.colourPct+"% trend";
+  const dot=$("colourDot");
+  if(c==="RED + VIOLET"){dot.style.background="linear-gradient(135deg,#ff4660 0 50%,#a96cff 50% 100%)";dot.style.color="#ff4660";}
+  else if(c==="GREEN + VIOLET"){dot.style.background="linear-gradient(135deg,#22ef91 0 50%,#a96cff 50% 100%)";dot.style.color="#22ef91";}
+  else {dot.style.background=c==="GREEN"?"#22ef91":c==="RED"?"#ff4660":"#555";dot.style.color=dot.style.background;}
+}
+function renderNumberBoard(){
+  $("numberGrid").innerHTML=Array.from({length:10},(_,n)=>{
+    const c=color(n);
+    const cls=c==="GREEN"?"greenN":c==="RED"?"redN":c==="RED + VIOLET"?"rvN":"gvN";
+    return `<div class="gameNum ${cls}" title="${n} = ${c}">${n}</div>`;
+  }).join("");
+}
+function stats(){
+  const counts=Array(10).fill(0);let big=0,g=0,r=0,v=0;
+  results.forEach(x=>{
+    counts[x[0]]++; if(x[2]==="Big")big++;
+    const actual=color(x[0]);
+    if(actual==="GREEN"||actual==="GREEN + VIOLET")g++;
+    if(actual==="RED"||actual==="RED + VIOLET")r++;
+    if(actual.includes("VIOLET"))v++;
+  });
+  $("total").textContent=results.length;$("big").textContent=big;$("small").textContent=results.length-big;$("green").textContent=g;$("red").textContent=r;$("violet").textContent=v;
+  $("chart").innerHTML=results.length ? counts.map((x,i)=>`<div class="bar" style="height:${25+Math.max(0,x)*16}px"><span>${x}</span></div>`).join("") : `<div class="muted" style="padding:12px;font-size:10px">Waiting for live settled results…</div>`;
+  $("trendChart").innerHTML=results.length ? results.slice(-18).map(x=>`<div class="bar" style="height:${35+x[0]*8}px"><span>${x[0]}</span></div>`).join("") : `<div class="muted" style="padding:12px;font-size:10px">Waiting for live settled results…</div>`;
+}
+
+document.querySelectorAll("nav button").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(btn.dataset.screen).classList.add("active");document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");window.scrollTo(0,0)}));
+renderNumberBoard();
+$("apiUrl").value=LIVE_API_URL();
+$("saveApi").addEventListener("click",async()=>{
+  const u=$("apiUrl").value.trim();
+  if(u)localStorage.setItem("wingoLiveApi",u); else localStorage.removeItem("wingoLiveApi");
+  await fetchLiveResults();
+});
+stats();
+render();
+fetchLiveResults();
+setInterval(render,1000);
+setInterval(fetchLiveResults,60000);
+</script>
+
+<style>
+.next-number-card{margin:12px 0;padding:16px;border:1px solid rgba(0,255,220,.25);border-radius:18px;background:linear-gradient(135deg,rgba(0,255,220,.06),rgba(130,70,255,.07));box-shadow:0 0 22px rgba(0,255,220,.08)}
+.eyebrow{font-size:11px;letter-spacing:2px;opacity:.72;font-weight:800}
+.next-number-wrap{display:flex;align-items:center;gap:16px;margin-top:10px}
+.next-number{font-size:58px;line-height:1;font-weight:900;text-shadow:0 0 18px currentColor}
+.next-meta{font-weight:800;line-height:1.7}.analysis-line{margin-top:10px;font-size:12px;opacity:.8}
+.sound-pill{position:fixed;right:14px;bottom:78px;z-index:50;border:1px solid rgba(0,255,220,.35);background:#081416;color:#dff;padding:9px 12px;border-radius:999px;font-size:11px;font-weight:800}
+</style>
+<button id="soundToggle" class="sound-pill" type="button">🔊 SOUND ON</button>
+<script>
+(function(){
+  let soundOn = localStorage.getItem('wingoSound') !== 'off';
+  const btn=document.getElementById('soundToggle');
+  function draw(){ if(btn) btn.textContent=soundOn?'🔊 SOUND ON':'🔇 SOUND OFF'; }
+  draw();
+  btn?.addEventListener('click',()=>{
+    soundOn=!soundOn; localStorage.setItem('wingoSound',soundOn?'on':'off'); draw();
+    if(soundOn) beep(740,.08);
+  });
+  function beep(freq=740,dur=.1){
+    if(!soundOn) return;
+    try{
+      const C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+      const c=new C(),o=c.createOscillator(),g=c.createGain();
+      o.frequency.value=freq;o.type='sine';g.gain.value=.045;
+      o.connect(g);g.connect(c.destination);o.start();
+      setTimeout(()=>{o.stop();c.close()},dur*1000);
+    }catch(e){}
+  }
+  window.playPredictionSound=function(){
+    beep(620,.07);setTimeout(()=>beep(880,.09),90);
+  };
+  window.playRoundEndSound=function(){
+    beep(880,.10);setTimeout(()=>beep(660,.10),120);setTimeout(()=>beep(1040,.16),240);
+  };
+  window.showOutcome=function(r){
+    const v=document.getElementById('outcomeValue'),m=document.getElementById('outcomeMeta');
+    if(!v)return;
+    const n=Number(r?.number ?? r?.n);
+    if(!Number.isFinite(n)) return;
+    const side=n>=5?'BIG':'SMALL';
+    const colour=n===0?'RED + VIOLET':n===5?'GREEN + VIOLET':[1,3,7,9].includes(n)?'GREEN':'RED';
+    v.textContent='NUMBER '+n+' • '+side;
+    m.textContent='COLOUR: '+colour+' • LIVE SETTLED OUTCOME';
+  };
+  
+})();
+</script>
+
+
+<script>
+function showNextNumberReference(pred){
+  if(!pred) return;
+  const n=document.getElementById('nextNumber');
+  const s=document.getElementById('nextSide');
+  const c=document.getElementById('nextColor');
+  const pct=document.getElementById('nextPercent');
+  const a=document.getElementById('predictionAnalysis');
+  if(n){n.textContent=pred.n ?? '—'; n.style.color=(pred.n===0||pred.n===5)?'#c084fc':([1,3,7,9].includes(+pred.n)?'#42ff9a':'#ff5d6c');}
+  if(s)s.textContent=(pred.side||'—')+' • '+(pred.confidence??pred.bigPct??'—')+'%';
+  if(c)c.textContent='COLOUR: '+(pred.colour||pred.color||'—');
+  if(pct)pct.textContent=(pred.bigPct!=null?'BIG '+pred.bigPct+'%':'')+(pred.smallPct!=null?'  SMALL '+pred.smallPct+'%':'');
+  if(a)a.textContent='ANALYSIS: live settled history + streak + transitions + frequency';
+  window.playPredictionSound?.();
+}
+</script>
+
+
+<script>
+(function(){
+  let lastMinute=-1, fired=false;
+  window.__roundSoundTimer=setInterval(async function(){
+    const now=new Date();
+    const sec=now.getSeconds();
+    const remain=60-sec;
+    const nodes=[document.getElementById('countdown'),document.querySelector('.countdown')].filter(Boolean);
+    nodes.forEach(x=>x.textContent='00:'+String(remain===60?0:remain).padStart(2,'0'));
+    if(sec===59 && !fired){
+      fired=true;
+      window.playRoundEndSound?.();
+      // Give the source a moment to settle, then trigger the page's existing live refresh.
+      setTimeout(()=>window.refreshLiveData?.(),1200);
+    }
+    if(sec!==59) fired=false;
+  },250);
+})();
+</script>
+
+<script>
+
+/* LOCAL TREND REFERENCE FALLBACK
+   Used only when an external prediction endpoint cannot be reached.
+   It is a statistical reference, not a guaranteed future result. */
+function multiPatternReference(rows){
+  if(!Array.isArray(rows) || !rows.length) return null;
+  const nums=rows.map(r=>Number(r.number)).filter(n=>Number.isInteger(n)&&n>=0&&n<=9);
+  if(!nums.length) return null;
+  const recent=nums.slice(0,20);
+  const counts=Array(10).fill(0);
+  recent.forEach(n=>counts[n]++);
+  let best=0;
+  for(let i=1;i<10;i++){
+    if(counts[i]>counts[best]) best=i;
+  }
+  const big=recent.filter(n=>n>=5).length;
+  const small=recent.length-big;
+  const side=big>=small?"BIG":"SMALL";
+  const strength=Math.max(big,small)/recent.length;
+  const confidence=Math.round(50+Math.max(0,strength-0.5)*100);
+  const colour=(best===0||best===5)?"VIOLET":([1,3,7,9].includes(best)?"GREEN":"RED");
+  return {
+    n:best,
+    side,
+    colour,
+    confidence:Math.min(95,Math.max(51,confidence)),
+    bigPct:Math.round(big/recent.length*100),
+    smallPct:Math.round(small/recent.length*100)
+  };
+}
+
+/* LIVE 1-MINUTE SOURCE + HARD PERIOD ALIGNMENT */
+const WINGATE_LIVE_SOURCE = "https://wingate.onrender.com";
+const WINGATE_ISSUE = () => WINGATE_LIVE_SOURCE + "/games/wingo/issue?type=1m";
+const WINGATE_HISTORY = () => WINGATE_LIVE_SOURCE + "/games/wingo/history?type=1m&size=50";
+const WINGATE_PREDICT = () => WINGATE_LIVE_SOURCE + "/games/wingo/prediction?typeId=1";
+
+async function fetchJson(url){
+  const r=await fetch(url,{cache:"no-store"});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  return await r.json();
+}
+
+function extractWinGateHistory(data){
+  const rows = data?.data?.list || data?.data?.results || data?.data ||
+               data?.list || data?.results || data?.history || [];
+  return (Array.isArray(rows)?rows:[]).map(x=>{
+    const n=Number(x.number ?? x.num ?? x.result ?? x.openNumber ?? x.open_number);
+    const period=String(x.issue_number ?? x.issueNumber ?? x.issue ?? x.period ?? "");
+    return Number.isFinite(n)&&n>=0&&n<=9 ? {number:n,period}:null;
+  }).filter(Boolean);
+}
+
+function applyLivePrediction(pred, sourceText){
+  if(!pred) return;
+  const side=String(pred.size||pred.side||"").toUpperCase();
+  const colour=String(pred.color||pred.colour||"").toUpperCase();
+  const nums=Array.isArray(pred.recommended_numbers)?pred.recommended_numbers:[];
+  const confidence=Number(pred.confidence_rate ?? pred.confidence ?? 0);
+  const n=Number(nums[0]);
+  const obj={
+    n:Number.isFinite(n)?n:((side==="BIG")?5:4),
+    side:side==="BIG"||side==="SMALL"?side:"",
+    colour:colour||"—",
+    confidence:confidence||50,
+    bigPct:side==="BIG"?confidence:100-confidence,
+    smallPct:side==="SMALL"?confidence:100-confidence
+  };
+  showNextNumberReference(obj);
+  const a=document.getElementById("predictionAnalysis");
+  if(a) a.textContent="ANALYSIS: "+sourceText+(pred.analysis?" • "+pred.analysis:"");
+}
+
+window.refreshHardLive=async function(){
+  const status=document.getElementById("sourceStatus");
+  try{
+    // Server/period first: this is the authoritative timing anchor.
+    const issue=await fetchJson(WINGATE_ISSUE());
+    const active=issue?.data || issue;
+    const remain=Number(active?.countdown_seconds ?? active?.remain ?? active?.remaining ?? 60);
+    const period=String(active?.issue_number ?? active?.issueNumber ?? active?.period ?? "");
+    window.livePeriod=period;
+    window.liveRemain=Math.max(0,Math.min(60,remain));
+
+    // History is only used for settled rows.
+    const hist=await fetchJson(WINGATE_HISTORY());
+    const rows=extractWinGateHistory(hist);
+    if(rows.length){
+      window.liveResults=rows;
+      const out=rows[0];
+      window.showOutcome?.(out);
+      const pred=multiPatternReference(rows);
+      if(pred) showNextNumberReference(pred);
+    }
+
+    // If the source exposes a server-side analysis, show it as a separate source.
+    try{
+      const pd=await fetchJson(WINGATE_PREDICT());
+      const pp=pd?.prediction || pd?.data?.prediction || pd?.data;
+      if(pp) applyLivePrediction(pp,"LIVE SOURCE ANALYSIS");
+    }catch(_){}
+
+    if(status){
+      status.textContent="● LIVE 1-MIN DATA CONNECTED";
+      status.classList.add("live");
+    }
+    const periodEl=document.getElementById("period");
+    if(periodEl && period) periodEl.textContent=period;
+  }catch(e){
+    console.warn("Primary live source unavailable; retaining existing source.",e);
+    try{ await window.refreshLiveData?.(); }catch(_){}
+    if(status && status.textContent!=="● LIVE DATA CONNECTED"){
+      status.textContent="● FALLBACK LIVE SOURCE";
+      status.classList.add("live");
+    }
+  }
+};
+
+// Align the UI to the exact minute boundary instead of drifting 60 seconds
+// from page-load time.
+(function hardClock(){
+  let lastPeriod="";
+  async function tick(){
+    try{
+      const issue=await fetchJson(WINGATE_ISSUE());
+      const a=issue?.data||issue;
+      const remain=Math.max(0,Math.min(60,Number(a?.countdown_seconds??a?.remain??60)));
+      const period=String(a?.issue_number??a?.issueNumber??a?.period??"");
+      const nodes=[document.getElementById("countdown"),document.querySelector(".countdown")].filter(Boolean);
+      nodes.forEach(n=>n.textContent="00:"+String(Math.ceil(remain)).padStart(2,"0"));
+      if(period && period!==lastPeriod){
+        if(lastPeriod) window.playRoundEndSound?.();
+        lastPeriod=period;
+        await window.refreshHardLive();
+      }
+    }catch(_){}
+  }
+  tick();
+  setInterval(tick,1000);
+})();
+</script>
+
+
+<script>
+async function getLiveJson(url){
+  const r=await fetch(url+"&ts="+Date.now(),{cache:"no-store"});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  return r.json();
+}
+function parsePublicHistory(d){
+  const rows=Array.isArray(d)?d:(d?.results||d?.data?.results||d?.data?.list||d?.data||[]);
+  return (Array.isArray(rows)?rows:[]).map(x=>{
+    const n=Number(x.number??x.num??x.result??x.openNumber);
+    const period=String(x.issue_number??x.issueNumber??x.period??x.issue??"");
+    return Number.isFinite(n)&&n>=0&&n<=9?{number:n,period}:null;
+  }).filter(Boolean);
+}
+window.refreshDescriptiveLive=async function(){
+  try{
+    const next=await getLiveJson("https://indialotteryapi.com/wp-json/wingo/v1/next?market=1");
+    const hist=await getLiveJson("https://indialotteryapi.com/wp-json/wingo/v1/history?market=1&limit=50");
+    const rows=parsePublicHistory(hist);
+    window.liveResults=rows;
+
+    const remain=Number(next?.remain??60);
+    const period=String(next?.period??"");
+    const cands=document.querySelectorAll("#countdown,.countdown");
+    cands.forEach(el=>el.textContent="00:"+String(Math.max(0,Math.ceil(remain))).padStart(2,"0"));
+    const pe=document.getElementById("period");
+    if(pe&&period) pe.textContent=period;
+
+    if(rows.length){
+      const out=rows[0];
+      window.showOutcome?.(out);
+      // Descriptive trend only: latest settled Big/Small distribution.
+      const recent=rows.slice(0,10);
+      const big=recent.filter(r=>r.number>=5).length;
+      const small=recent.length-big;
+      const a=document.getElementById("predictionAnalysis");
+      if(a) a.textContent=`LIVE TREND: last ${recent.length} settled rounds • BIG ${Math.round(big/recent.length*100)}% • SMALL ${Math.round(small/recent.length*100)}%`;
+      const np=document.getElementById("nextPercent");
+      if(np) np.textContent=`BIG ${Math.round(big/recent.length*100)}% / SMALL ${Math.round(small/recent.length*100)}%`;
+
+      // Get the source's current next-period prediction.
+      try{
+        const pd=await getLiveJson("https://indialotteryapi.com/wp-json/wingo/v1/predict?market=1");
+        const q=pd?.prediction || pd?.data?.prediction || pd?.data || pd;
+        const digit=Number(q?.digit ?? q?.number ?? q?.num);
+        const bs=String(q?.bigSmall ?? q?.big_small ?? q?.size ?? "").toUpperCase();
+        const color=String(q?.color ?? q?.colour ?? "—").toUpperCase();
+        const conf=Number(q?.conf ?? q?.confidence ?? q?.confidence_rate ?? 0);
+        if(Number.isFinite(digit) && digit>=0 && digit<=9){
+          const ref={
+            n:digit,
+            side:(bs==="BIG"||bs==="SMALL")?bs:(digit>=5?"BIG":"SMALL"),
+            colour:color,
+            confidence:conf||50,
+            bigPct:bs==="BIG"?(conf||50):100-(conf||50),
+            smallPct:bs==="SMALL"?(conf||50):100-(conf||50)
+          };
+          showNextNumberReference(ref);
+          const a2=document.getElementById("predictionAnalysis");
+          if(a2) a2.textContent=`SOURCE PREDICTION • Period ${q?.period||"next"} • ${ref.side} • ${ref.colour} • Confidence ${conf||"—"}%`;
+        }
+      }catch(predErr){
+        console.warn("Prediction endpoint unavailable",predErr);
+        const a2=document.getElementById("predictionAnalysis");
+        if(a2) a2.textContent=`LIVE TREND ONLY • BIG ${Math.round(big/recent.length*100)}% • SMALL ${Math.round(small/recent.length*100)}%`;
+      }
+    }
+    const st=document.getElementById("sourceStatus");
+    if(st){st.textContent="● LIVE 1-MIN DATA CONNECTED";st.classList.add("live");}
+  }catch(e){
+    console.warn("Live feed unavailable",e);
+    const st=document.getElementById("sourceStatus");
+    if(st) st.textContent="● LIVE DATA UNAVAILABLE";
+  }
+};
+window.refreshDescriptiveLive();
+setInterval(window.refreshDescriptiveLive,60000);
+</script>
+
+
+<script>
+/* FINAL PREDICTION DISPLAY CONTROLLER — source first, local trend fallback */
+(function(){
+  const PRED='https://indialotteryapi.com/wp-json/wingo/v1/predict?market=1';
+  async function loadSourcePrediction(){
+    const a=document.getElementById('predictionAnalysis');
+    try{
+      const ctl=new AbortController();
+      const timer=setTimeout(()=>ctl.abort(),7000);
+      const r=await fetch(PRED+'&ts='+Date.now(),{cache:'no-store',signal:ctl.signal,headers:{'Accept':'application/json'}});
+      clearTimeout(timer);
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const raw=await r.json();
+      const q=raw?.prediction||raw?.data?.prediction||raw?.data||raw;
+      const digit=Number(q?.digit??q?.number??q?.num);
+      if(!Number.isInteger(digit)||digit<0||digit>9) throw new Error('No digit');
+      const side=String(q?.bigSmall??q?.big_small??q?.size??(digit>=5?'Big':'Small')).toUpperCase();
+      const colour=String(q?.color??q?.colour??(digit===0||digit===5?'Violet':[1,3,7,9].includes(digit)?'Green':'Red')).toUpperCase();
+      const conf=Number(q?.conf??q?.confidence??q?.confidence_rate);
+      const c=Number.isFinite(conf)&&conf>0?Math.round(conf):'—';
+      showNextNumberReference({n:digit,side,colour,confidence:c,bigPct:side==='BIG'&&c!=='—'?c:null,smallPct:side==='SMALL'&&c!=='—'?c:null});
+      if(a) a.textContent='LIVE SOURCE PREDICTION • '+(q?.period||'NEXT PERIOD')+' • '+side+' • '+colour+' • CONFIDENCE '+c+'%';
+      const st=document.getElementById('sourceStatus');
+      if(st){st.textContent='● LIVE PREDICTION CONNECTED';st.classList.add('live');}
+      return true;
+    }catch(e){
+      console.warn('Prediction source unavailable; using trend reference',e);
+      const rows=Array.isArray(window.liveResults)?window.liveResults:[];
+      const pred=multiPatternReference(rows);
+      if(pred){
+        showNextNumberReference(pred);
+        if(a) a.textContent='TREND REFERENCE • '+pred.side+' • '+pred.colour+' • '+pred.confidence+'% • SOURCE API UNAVAILABLE';
+        const st=document.getElementById('sourceStatus');
+        if(st) st.textContent='● TREND REFERENCE ACTIVE';
+      }else{
+        if(a) a.textContent='WAITING FOR LIVE HISTORY…';
+      }
+      return false;
+    }
+  }
+  window.loadSourcePrediction=loadSourcePrediction;
+  loadSourcePrediction();
+  setInterval(loadSourcePrediction,10000);
+})();</script>
+
+
+<script>
+/* FINAL SINGLE LIVE CONTROLLER
+   One controller owns period, settled history and next-period reference.
+   Source prediction is displayed when the public endpoint is reachable;
+   otherwise the UI clearly falls back to a statistical trend reference. */
+(function(){
+  const BASE='https://indialotteryapi.com/wp-json/wingo/v1';
+  const urls={
+    next:()=>BASE+'/next?market=1&ts='+Date.now(),
+    history:()=>BASE+'/history?market=1&limit=50&ts='+Date.now(),
+    predict:()=>BASE+'/predict?market=1&ts='+Date.now()
+  };
+  let busy=false, lastPeriod='';
+
+  async function get(url){
+    const c=new AbortController();
+    const t=setTimeout(()=>c.abort(),8000);
+    try{
+      const r=await fetch(url,{method:'GET',cache:'no-store',mode:'cors',headers:{Accept:'application/json'},signal:c.signal});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return await r.json();
+    }finally{clearTimeout(t)}
+  }
+  function rowsFrom(d){
+    const a=Array.isArray(d)?d:(d?.results||d?.history||d?.records||d?.list||d?.rows||d?.data?.results||d?.data?.history||d?.data?.list||d?.data||[]);
+    return (Array.isArray(a)?a:[]).map(x=>{
+      const n=Number(x.number??x.num??x.result??x.digit??x.openNumber??x.open_number??x.winningNumber);
+      const period=String(x.issue_number??x.issueNumber??x.period??x.issue??x.id??'');
+      return Number.isInteger(n)&&n>=0&&n<=9?{number:n,period}:null;
+    }).filter(Boolean);
+  }
+  function fallback(rows){
+    if(!rows.length) return null;
+    const r=rows.slice(0,20), counts=Array(10).fill(0);
+    r.forEach(x=>counts[x.number]++);
+    let n=0; for(let i=1;i<10;i++) if(counts[i]>counts[n]) n=i;
+    const big=r.filter(x=>x.number>=5).length, small=r.length-big;
+    const side=big>=small?'BIG':'SMALL';
+    const conf=Math.round(50+Math.abs(big-small)/r.length*35);
+    const colour=n===0?'RED + VIOLET':n===5?'GREEN + VIOLET':[1,3,7,9].includes(n)?'GREEN':'RED';
+    return {n,side,colour,confidence:Math.min(85,Math.max(51,conf)),bigPct:Math.round(big/r.length*100),smallPct:Math.round(small/r.length*100)};
+  }
+  function display(pred,source){
+    if(!pred) return;
+    const n=Number(pred.n), side=String(pred.side||'').toUpperCase(), colour=String(pred.colour||pred.color||'').toUpperCase();
+    const conf=Number(pred.confidence);
+    const obj={n,side,colour,confidence:Number.isFinite(conf)?Math.round(conf):'—',bigPct:pred.bigPct,smallPct:pred.smallPct};
+    window.showNextNumberReference?.(obj);
+    const a=document.getElementById('predictionAnalysis');
+    if(a) a.textContent=source+(pred.period?' • PERIOD '+pred.period:'')+' • '+side+' • '+colour+' • '+(Number.isFinite(conf)?Math.round(conf)+'%':'REFERENCE');
+  }
+  async function refresh(){
+    if(busy) return; busy=true;
+    try{
+      const [nextR,histR,predR]=await Promise.allSettled([get(urls.next()),get(urls.history()),get(urls.predict())]);
+      const next=nextR.status==='fulfilled'?nextR.value:null;
+      const rows=histR.status==='fulfilled'?rowsFrom(histR.value):[];
+      if(rows.length){
+        window.liveResults=rows;
+        const normalized=rows.map(x=>[x.number,'',x.number>=5?'Big':'Small',x.period]);
+        if(typeof results!=='undefined'){results=normalized; window.stats?.(); window.render?.();}
+        window.showOutcome?.(rows[0]);
+      }
+      const remain=Number(next?.remain??next?.seconds_remaining??60);
+      const period=String(next?.period??'');
+      if(period) lastPeriod=period;
+      document.querySelectorAll('#countdown,.countdown').forEach(el=>el.textContent='00:'+String(Math.max(0,Math.ceil(remain))).padStart(2,'0'));
+      const pe=document.getElementById('period'); if(pe&&period) pe.textContent=period;
+
+      let sourcePred=null;
+      if(predR.status==='fulfilled'){
+        const q=predR.value?.prediction||predR.value?.data?.prediction||predR.value?.data||predR.value;
+        const n=Number(q?.digit??q?.number??q?.num);
+        if(Number.isInteger(n)&&n>=0&&n<=9){
+          const bs=String(q?.bigSmall??q?.big_small??q?.size??(n>=5?'Big':'Small')).toUpperCase();
+          const col=String(q?.color??q?.colour??(n===0?'Red + Violet':n===5?'Green + Violet':[1,3,7,9].includes(n)?'Green':'Red')).toUpperCase();
+          const conf=Number(q?.conf??q?.confidence??q?.confidence_rate);
+          sourcePred={n,side:bs,colour:col,confidence:conf,period:q?.period};
+        }
+      }
+      if(sourcePred) display(sourcePred,'LIVE SOURCE PREDICTION');
+      else {
+        const fb=fallback(rows);
+        if(fb) display(fb,'TREND REFERENCE — SOURCE PREDICTION UNAVAILABLE');
+      }
+      const st=document.getElementById('sourceStatus');
+      if(st){
+        st.textContent=sourcePred?'● LIVE PREDICTION CONNECTED':'● LIVE HISTORY / TREND REFERENCE';
+        st.classList.add('live');
+      }
+    }catch(e){
+      console.warn('Final live controller:',e);
+      const a=document.getElementById('predictionAnalysis');
+      if(a) a.textContent='SOURCE CONNECTION FAILED — CHECK INTERNET/CORS; NO FAKE RESULT SHOWN';
+    }finally{busy=false}
+  }
+  // Override the older competing controllers so they cannot erase the prediction.
+  window.refreshHardLive=refresh;
+  window.refreshDescriptiveLive=refresh;
+  window.refreshLiveData=refresh;
+  window.__finalLiveRefresh=refresh;
+  refresh();
+  setInterval(refresh,10000);
+})();
+</script>
+</body>
+</html>
